@@ -1,2 +1,24 @@
 @import (reference) "bootstrap/less/variables.less";
 
+.bsp-widget {
+	border-radius: @border-radius-base;
+	.bsp-volume {
+   	width: 150px !important;
+  	margin: 0 0 0 @padding-base-horizontal;
+  	.slider-track {
+  		background: @panel-bg;
+  	}
+  	.slider-selection {
+  		background: @brand-info;
+  	}
+  	.slider-handle {
+  		color: @btn-primary-color;
+  		background: @btn-primary-bg;
+  		border: 1px solid @btn-primary-border;
+  		font-family: 'Glyphicons Halflings';
+  	}
+	}
+	.bsp-volume-mute .slider-handle:before { content: "\\e036"; }
+	.bsp-volume-half .slider-handle:before { content: "\\e037"; }
+	.bsp-volume-full .slider-handle:before { content: "\\e038"; }
+}
