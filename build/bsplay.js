@@ -1,7 +1,9 @@
 ;(function ($, ajs){
 
 var plugin   = 'bsplay';
-var defaults = {};
+var defaults = {
+	volume: 50
+};
 var settings = {
 	css: '.bsp-widget{border-radius:4px}.bsp-widget .bsp-volume{width:150px!important;margin:0 0 0 12px}.bsp-widget .bsp-volume .slider-track{background:#fff}.bsp-widget .bsp-volume .slider-selection{background:#5bc0de}.bsp-widget .bsp-volume .slider-handle{color:#fff;background:#337ab7;border:1px solid #2e6da4;font-family:\'Glyphicons Halflings\'}.bsp-widget .bsp-volume-mute .slider-handle:before{content:"\\e036"}.bsp-widget .bsp-volume-half .slider-handle:before{content:"\\e037"}.bsp-widget .bsp-volume-full .slider-handle:before{content:"\\e038"}'
 , createPlayer: {
@@ -19,8 +21,27 @@ var settings = {
 	, errorClass:        'bsp-error'
 	}
 };
+
+/** Singleton plugin object
+ * @property {jQuery}  active  - Wrapped current track element
+ * @property {Object}  tracks  - Hash of mp3 path => wrapped playlist track
+ * @property {Object}  options - User options merged with defaults
+ * @property {audiojs} player  - AudioJS player instance
+ * @property {jQuery}  wrapper - Wrapped player container element
+ * @property {jQuery}  slider  - Wrapped volume slider element 
+ * @property {jQuery} playlist - Wrapped playlist container element
+ * @property {jQuery} template - Wrapped track template element
+ */
 var bsplay = {
-	init: function ($audio, options){
+
+	active: null
+, tracks: {}
+
+	/** Initialize audiojs player and plugin state
+	 * @param {jQuery} $audio  - Wrapped audio element
+	 * @param {Object} options - Plugin options
+	 */
+, init: function ($audio, options){
 		var self     = this;
 		self.options = $.extend({}, defaults, options);
 		self.player  = ajs.create($audio[0], settings);
@@ -33,20 +54,55 @@ var bsplay = {
 			var val = event.value.newValue;
 			self.player.setVolume(val / 100);
 			if (val === 0){
-				self.slider.addClass('bsp-volume-mute')
-					.removeClass('bsp-volume-half bsp-volume-full');	
+				self.slider.addClass('bsp-volume-mute').removeClass('bsp-volume-half bsp-volume-full');	
 			}
 			else if (val > 50){
-				self.slider.addClass('bsp-volume-full')
-					.removeClass('bsp-volume-mute bsp-volume-half');
+				self.slider.addClass('bsp-volume-full').removeClass('bsp-volume-mute bsp-volume-half');
 			}
 			else {
-				self.slider.addClass('bsp-volume-half')
-					.removeClass('bsp-volume-mute bsp-volume-full');
+				self.slider.addClass('bsp-volume-half').removeClass('bsp-volume-mute bsp-volume-full');
 			}
 		});
+		self.playlist = this.wrapper.find('.bsp-playlist');
+		self.template = self.playlist.find('.bsp-track')
+			.remove()
+			.removeClass('hide')
+			.click(function (){ self.play($(this)); })
+		;
+		this.player.setVolume(this.options.volume / 100);
+		this.add($audio);
 	}
-, add: function ($audio){}
+
+	/** Adds an audio element to the playlist
+	 * @param {jQuery} $audio - Wrapped audio element
+	 */
+, add: function ($audio){
+		var self = this;
+		var path = $audio.attr('src');
+		if (self.tracks[path]){ return this; }
+		var tokens = path.split('/').pop()
+			.replace(/^[\s\._]*\d*[\s\._]*/, '')
+			.split(/[\s\._]+-[\s\._]+/)
+		;
+		var data = {
+			path:   path
+		, artist: tokens.length > 1 ? tokens.shift() : '?'
+		, title:  tokens.join(' - ').replace(/\.mp3$/i, '')
+		};
+		var $track = self.template.clone(true).data(plugin, data).appendTo(self.playlist);
+		$track.find('.bsp-artist').text(data.artist);
+		$track.find('.bsp-title' ).text(data.title);
+		self.active || (self.active = $track);
+		self.tracks[path] = $track;
+	}
+
+	/** Plays an audio element
+	 * @param {jQuery} $audio - Wrapped audio element
+	 */
+, play: function ($audio){
+
+	}
+
 };
 
 $.fn[plugin] = function (options){
