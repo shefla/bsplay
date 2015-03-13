@@ -17,10 +17,18 @@ var settings = {
 , loadingClass:      'bsp-loading'
 , errorClass:        'bsp-error'
 };
+var bsplay = {
+	init: function ($audio, options){
+		this.player = ajs.create($audio[0], settings);
+	}
+, add: function ($audio){}
+};
 
 $.fn[plugin] = function (options){
 	return this.each(function (){
-
+		var $el = $(this);
+		if ($el.prop('tagName') !== 'AUDIO'){ return; }
+		bsplay.player ? bsplay.add($el) : bsplay.init($el, options);
 	});
 };
 
