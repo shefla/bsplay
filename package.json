@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/shefla/bsplay",
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-less": "^3.0.1"
   }
 }
