@@ -1,0 +1,16 @@
+[submodule "audiojs"]
+	path = audiojs
+	url = https://github.com/kolber/audiojs
+[submodule "jquery"]
+	path = jquery
+	url = https://github.com/jquery/jquery
+	branch = 1.11-stable
+[submodule "bootstrap"]
+	path = bootstrap
+	url = https://github.com/twbs/bootstrap
+[submodule "bootstrap-slider"]
+	path = bootstrap-slider
+	url = https://github.com/seiyria/bootstrap-slider
+[submodule "html5sortable"]
+	path = html5sortable
+	url = https://github.com/voidberg/html5sortable
