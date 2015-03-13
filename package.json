@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/shefla/bsplay/issues"
   },
-  "homepage": "https://github.com/shefla/bsplay"
+  "homepage": "https://github.com/shefla/bsplay",
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
 }
