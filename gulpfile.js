@@ -6,6 +6,18 @@ var less    = require('gulp-less');
 var cssmin  = require('gulp-minify-css');
 var htmlmin = require('gulp-htmlmin');
 var replace = require('gulp-replace');
+var server  = require('gulp-webserver');
+
+gulp.task('server', function (){
+	gulp.watch('./src/bsplay.*', ['build:script']);
+	return gulp.src('.').pipe(server({
+		open:       'http://localhost/index.html'
+	, port:       80
+	, livereload: true
+	}));
+});
+
+gulp.task('build', ['build:jquery', 'build:script']);
 
 gulp.task('build:jquery', function (done){
 	exec('cd jquery && npm run build', done);
