@@ -1,0 +1,29 @@
+{
+  "name": "bsplay",
+  "version": "1.0.0",
+  "description": "Bootstrap audio playlist using jQuery and AudioJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shefla/bsplay.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "audio",
+    "playlist",
+    "jquery",
+    "audiojs",
+    "mp3",
+    "responsive",
+    "player"
+  ],
+  "author": "shefla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shefla/bsplay/issues"
+  },
+  "homepage": "https://github.com/shefla/bsplay"
+}
