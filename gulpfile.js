@@ -11,7 +11,7 @@ var server  = require('gulp-webserver');
 gulp.task('server', function (){
 	gulp.watch('./src/bsplay.*', ['build:script']);
 	return gulp.src('.').pipe(server({
-		open:       'http://localhost/index.html'
+		open:       'http://localhost/test/index.html'
 	, port:       80
 	, livereload: true
 	}));
