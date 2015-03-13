@@ -20,15 +20,30 @@ var settings = {
 	, loadingClass:      'bsp-loading'
 	, errorClass:        'bsp-error'
 	}
+	/** AudioJS play event, synchronize playlist with player state
+	 */
+, play: function (){
+		var $track = bsplay.active = bsplay.tracks[this.mp3];
+		var data   = $track.data(plugin);
+		bsplay.artist.text(data.artist);
+		bsplay.title.text(data.title);
+		$.each(bsplay.tracks, function (path, $el){ $el.removeClass('active'); });
+		$track.addClass('active');
+		bsplay.progress.addClass('active');
+		bsplay.wrapper.addClass(settings.createPlayer.playingClass);
+	}
 };
 
 /** Singleton plugin object
- * @property {jQuery}  active  - Wrapped current track element
- * @property {Object}  tracks  - Hash of mp3 path => wrapped playlist track
+ * @property {jQuery}   active - Wrapped current track element
+ * @property {Object}   tracks - Hash of mp3 path => wrapped playlist track
  * @property {Object}  options - User options merged with defaults
- * @property {audiojs} player  - AudioJS player instance
+ * @property {audiojs}  player - AudioJS player instance
  * @property {jQuery}  wrapper - Wrapped player container element
- * @property {jQuery}  slider  - Wrapped volume slider element 
+ * @property {jQuery}   slider - Wrapped volume slider element 
+ * @property {jQuery}   artist - Wrapped current track artist text element
+ * @property {jQuery}    title - Wrapped current track title text element
+ * @property {jQuery} progress - Wrapped progress bar element
  * @property {jQuery} playlist - Wrapped playlist container element
  * @property {jQuery} template - Wrapped track template element
  */
@@ -63,14 +78,17 @@ var bsplay = {
 				self.slider.addClass('bsp-volume-half').removeClass('bsp-volume-mute bsp-volume-full');
 			}
 		});
-		self.playlist = this.wrapper.find('.bsp-playlist');
+		self.artist   = self.wrapper.find('.bsp-active-artist');
+		self.title    = self.wrapper.find('.bsp-active-title');
+		self.progress = self.wrapper.find('.bsp-progress');
+		self.playlist = self.wrapper.find('.bsp-playlist');
 		self.template = self.playlist.find('.bsp-track')
 			.remove()
 			.removeClass('hide')
 			.click(function (){ self.play($(this)); })
 		;
 		this.player.setVolume(this.options.volume / 100);
-		this.add($audio);
+		this.active = this.add($audio);
 	}
 
 	/** Adds an audio element to the playlist
@@ -92,15 +110,16 @@ var bsplay = {
 		var $track = self.template.clone(true).data(plugin, data).appendTo(self.playlist);
 		$track.find('.bsp-artist').text(data.artist);
 		$track.find('.bsp-title' ).text(data.title);
-		self.active || (self.active = $track);
 		self.tracks[path] = $track;
+		return $track;
 	}
 
-	/** Plays an audio element
-	 * @param {jQuery} $audio - Wrapped audio element
+	/** Plays an audio track
+	 * @param {jQuery} $track - Wrapped track element
 	 */
-, play: function ($audio){
-
+, play: function ($track){
+		this.player.load($track.data(plugin).path);
+		this.player.play();
 	}
 
 };
