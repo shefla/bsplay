@@ -6,7 +6,7 @@
 	<title>bsplay</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body class="container-fluid">
 	<h1>bsplay</h1>
@@ -23,7 +23,15 @@
 	<audio src="mp3/64586__halima-ahkdar_-_hip-voice-o8340o39.mp3" />
 	<audio src="mp3/87778__marcgascon7_-_vocals.mp3" />
 
-	<script src="jquery/dist/jquery.min.js"></script>
-	<script src="build/bsplay.js"></script>
+	<script type="text/javascript" src="../jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../audiojs/audiojs/audio.min.js"></script>
+	<script type="text/javascript" src="../build/bsplay.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function ($){
+		$('audio').bsplay({
+
+		});
+	});
+	</script>
 </body>
 </html>
