@@ -27,16 +27,8 @@ gulp.task('build:markup', function (){
 });
 
 gulp.task('build:script', ['build:style', 'build:markup'], function (){
-	var opts = { encoding: 'utf-8' };
-	var vars = { '{{style}}': './' };
-	var css  = fs.readFileSync('./build/bsplay.css',  opts);
-	var html = fs.readFileSync('./build/bsplay.html', opts);
-	var get = function (ext){
-		return fs.readFileSync('./build/bplay.'+ext)
-	}
 	return gulp.src('./src/bsplay.js')
 		.pipe(replace(/INJECT\.(html|css)/g, function (inject){
-			console.log('inject', inject, path.extname(inject));
 			return fs.readFileSync(
 				'./build/bsplay'+path.extname(inject)
 			, { encoding: 'utf-8' }
