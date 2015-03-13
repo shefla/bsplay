@@ -87,8 +87,10 @@ var bsplay = {
 			.removeClass('hide')
 			.click(function (){ self.play($(this)); })
 		;
-		this.player.setVolume(this.options.volume / 100);
-		this.active = this.add($audio);
+		self.wrapper.find('.bsp-prev').click(function (){ self.prev(); });
+		self.wrapper.find('.bsp-next').click(function (){ self.next(); });
+		self.player.setVolume(self.options.volume / 100);
+		self.active = self.add($audio);
 	}
 
 	/** Adds an audio element to the playlist
@@ -120,6 +122,18 @@ var bsplay = {
 , play: function ($track){
 		this.player.load($track.data(plugin).path);
 		this.player.play();
+	}
+
+	/** Plays previous playlist track or stops */
+, prev: function (){
+		var $prev = this.active.prev('.bsp-track');
+		if ($prev.length){ this.play($prev); }
+	}
+
+	/** Plays next playlist track or stops */
+, next: function (){
+		var $next = this.active.next('.bsp-track');
+		if ($next.length){ this.play($next); }
 	}
 
 };
