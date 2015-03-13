@@ -3,8 +3,8 @@
 var plugin   = 'bsplay';
 var defaults = {};
 var settings = {
-	css: ''
-, createPlayer: { markup: '' }
+	css: 'INJECT.css'
+, createPlayer: { markup: 'INJECT.html' }
 , playPauseClass:    'bsp-play-pause'
 , scrubberClass:     'bsp-scrubber'
 , progressClass:     'bsp-progress'
