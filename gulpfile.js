@@ -1,7 +1,7 @@
 var fs      = require('fs');
 var path    = require('path');
 var gulp    = require('gulp');
-var exec    = require('child_process').exec;
+var shell   = require('gulp-shell');
 var less    = require('gulp-less');
 var cssmin  = require('gulp-minify-css');
 var htmlmin = require('gulp-htmlmin');
@@ -19,9 +19,9 @@ gulp.task('server', function (){
 
 gulp.task('build', ['build:jquery', 'build:script']);
 
-gulp.task('build:jquery', function (done){
-	exec('cd jquery && npm run build', done);
-});
+gulp.task('build:jquery', shell.task('npm run build', {
+	cwd: path.join(__dirname, 'jquery')
+}));
 
 gulp.task('build:style', function (){
 	return gulp.src('./src/bsplay.less')
