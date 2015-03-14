@@ -3,10 +3,24 @@
 .bsp-widget {
 	border-radius: @border-radius-base;
 
+  .bsp-prev, .bsp-next{
+    margin-top: 6px;
+  }
+  .bsp-play-pause {
+    border-radius: @border-radius-large !important;
+  }
+  .bsp-options {
+    margin-top: 8px;
+  }
+  .bsp-infos {
+    margin: 10px 0 0 0;
+  }
 	.bsp-volume {
-   	width: 150px !important;
   	margin: 0 0 0 @padding-base-horizontal;
-
+    width: 150px;
+    .slider {
+      width: 100%;
+    }
   	.slider-track {
   		background: @panel-bg;
   	}
@@ -24,6 +38,9 @@
   .bsp-volume-half .slider-handle:before { content: "\\e037"; }
   .bsp-volume-full .slider-handle:before { content: "\\e038"; }
   .bsp-repeat-all .glyphicon:before { content: "\\e031"; }
+  .panel-body {
+    padding: 0;
+  }
   .bsp-scrubber {
     margin: 0;
     border-radius: 0;
