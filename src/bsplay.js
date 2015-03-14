@@ -129,23 +129,43 @@ var bsplay = {
 		this.player.play();
 	}
 
+	/** Pause current track */
+, pause: function (){ this.player.pause(); }
+
 	/** Plays previous playlist track or stops */
 , prev: function (){
-		var $prev = this.active.prev('.bsp-track');
-		if ($prev.length){ this.play($prev); }
+		var $prev;
+		var self = this;
+		if (self.options.random){ return self.next(); }
+		$prev = self.active.next('.bsp-track')
+		$prev.length ? self.play($next) : self.pause();
 	}
 
-	/** Plays next playlist track or stops */
+	/** Plays next playlist track according to random option or stops */
 , next: function (){
-		var $next = this.active.next('.bsp-track');
-		if ($next.length){ this.play($next); }
+		var $next;
+		var self = this;
+		if (self.options.random){
+			$next = self.tracks[self.randlist.pop()];
+		}
+		else {
+			$next = self.active.next('.bsp-track')
+		}
+		$next && $next.length ? self.play($next) : self.pause();
 	}
 , randomize: function (){
-		var self      = this;
-		self.randlist = $.map(self.tracks, function ($track, path){
-			if (!$track.is(self.active) || !self.player.playing){ return path; }
-		}).sort(function (){ return 0.5 - Math.random(); });
-		console.log(self.randlist);
+		var tmp, rng;
+		var self = this;
+		var keys = $.map(self.tracks, function ($track, path){
+			if (!$track.is(self.active)/* || !self.player.playing*/){ return path; }
+		});
+    for (var idx=keys.length-1; idx>0; idx--){
+			var rng   = Math.floor(Math.random() * (idx + 1));
+			var tmp   = keys[idx];
+			keys[idx] = keys[rng];
+			keys[rng] = tmp;
+    }
+		self.randlist = keys;
 	}
 };
 
