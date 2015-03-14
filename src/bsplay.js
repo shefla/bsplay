@@ -3,6 +3,7 @@
 var plugin   = 'bsplay';
 var defaults = {
 	volume: 50
+, random: false
 };
 var settings = {
 	css: 'INJECT.css'
@@ -89,6 +90,10 @@ var bsplay = {
 		;
 		self.wrapper.find('.bsp-prev').click(function (){ self.prev(); });
 		self.wrapper.find('.bsp-next').click(function (){ self.next(); });
+		self.wrapper.find('.bsp-random').click(function (){
+			self.options.random = $(this).toggleClass('btn-primary').hasClass('btn-primary');
+			self.options.random && self.randomize();
+		});
 		self.player.setVolume(self.options.volume / 100);
 		self.active = self.add($audio);
 	}
@@ -135,7 +140,13 @@ var bsplay = {
 		var $next = this.active.next('.bsp-track');
 		if ($next.length){ this.play($next); }
 	}
-
+, randomize: function (){
+		var self      = this;
+		self.randlist = $.map(self.tracks, function ($track, path){
+			if (!$track.is(self.active) || !self.player.playing){ return path; }
+		}).sort(function (){ return 0.5 - Math.random(); });
+		console.log(self.randlist);
+	}
 };
 
 $.fn[plugin] = function (options){

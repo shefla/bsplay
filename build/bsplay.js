@@ -3,6 +3,7 @@
 var plugin   = 'bsplay';
 var defaults = {
 	volume: 50
+, random: false
 };
 var settings = {
 	css: '.bsp-widget{border-radius:4px}.bsp-widget .bsp-volume{width:150px!important;margin:0 0 0 12px}.bsp-widget .bsp-volume .slider-track{background:#fff}.bsp-widget .bsp-volume .slider-selection{background:#5bc0de}.bsp-widget .bsp-volume .slider-handle{color:#fff;background:#337ab7;border:1px solid #2e6da4;font-family:\'Glyphicons Halflings\'}.bsp-widget .bsp-volume-mute .slider-handle:before{content:"\\e036"}.bsp-widget .bsp-volume-half .slider-handle:before{content:"\\e037"}.bsp-widget .bsp-volume-full .slider-handle:before{content:"\\e038"}.bsp-playing .bsp-play-pause .glyphicon:before{content:"\\e073"}'
@@ -89,6 +90,10 @@ var bsplay = {
 		;
 		self.wrapper.find('.bsp-prev').click(function (){ self.prev(); });
 		self.wrapper.find('.bsp-next').click(function (){ self.next(); });
+		self.wrapper.find('.bsp-random').click(function (){
+			self.options.random = $(this).toggleClass('btn-primary').hasClass('btn-primary');
+			self.options.random && self.randomize();
+		});
 		self.player.setVolume(self.options.volume / 100);
 		self.active = self.add($audio);
 	}
@@ -135,7 +140,13 @@ var bsplay = {
 		var $next = this.active.next('.bsp-track');
 		if ($next.length){ this.play($next); }
 	}
-
+, randomize: function (){
+		var self      = this;
+		self.randlist = $.map(self.tracks, function ($track, path){
+			if (!$track.is(self.active) || !self.player.playing){ return path; }
+		}).sort(function (){ return 0.5 - Math.random(); });
+		console.log(self.randlist);
+	}
 };
 
 $.fn[plugin] = function (options){
