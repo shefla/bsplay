@@ -7,7 +7,7 @@ var defaults = {
 , repeat: 'off' // either "off", "one" or "all"
 };
 var settings = {
-	css: '.bsp-widget{border-radius:4px}.bsp-widget .bsp-volume{width:150px!important;margin:0 0 0 12px}.bsp-widget .bsp-volume .slider-track{background:#fff}.bsp-widget .bsp-volume .slider-selection{background:#5bc0de}.bsp-widget .bsp-volume .slider-handle{color:#fff;background:#337ab7;border:1px solid #2e6da4;font-family:\'Glyphicons Halflings\'}.bsp-widget .bsp-volume-mute .slider-handle:before{content:"\\e036"}.bsp-widget .bsp-volume-half .slider-handle:before{content:"\\e037"}.bsp-widget .bsp-volume-full .slider-handle:before{content:"\\e038"}.bsp-widget .bsp-repeat-all .glyphicon:before{content:"\\e031"}.bsp-playing .bsp-play-pause .glyphicon:before{content:"\\e073"}'
+	css: '.bsp-widget{border-radius:4px}.bsp-widget .bsp-volume{width:150px!important;margin:0 0 0 12px}.bsp-widget .bsp-volume .slider-track{background:#fff}.bsp-widget .bsp-volume .slider-selection{background:#5bc0de}.bsp-widget .bsp-volume .slider-handle{color:#fff;background:#337ab7;border:1px solid #2e6da4;font-family:\'Glyphicons Halflings\'}.bsp-widget .bsp-volume-mute .slider-handle:before{content:"\\e036"}.bsp-widget .bsp-volume-half .slider-handle:before{content:"\\e037"}.bsp-widget .bsp-volume-full .slider-handle:before{content:"\\e038"}.bsp-widget .bsp-repeat-all .glyphicon:before{content:"\\e031"}.bsp-widget .bsp-scrubber{margin:0;border-radius:0;position:relative}.bsp-widget .bsp-scrubber .bsp-loaded,.bsp-widget .bsp-scrubber .bsp-progress{position:absolute;top:0;left:0}.bsp-playing .bsp-play-pause .glyphicon:before{content:"\\e073"}'
 , createPlayer: {
 		markup: '<div class="panel panel-default bsp-widget"><div class="panel-heading clearfix"><div class="pull-left bsp-cover"></div><div class="btn-group"><a class="btn btn-default bsp-prev"><span class="glyphicon glyphicon-step-backward"></span></a> <a class="btn btn-lg btn-default bsp-play-pause"><span class="glyphicon glyphicon-play"></span></a> <a class="btn btn-default bsp-next"><span class="glyphicon glyphicon-step-forward"></span></a></div><div class="btn bsp-volume bsp-volume-half"><input type="text"></div><div class="btn-group pull-right bsp-options"><a class="btn btn-sm btn-default bsp-random"><span class="glyphicon glyphicon-random"></span></a> <a class="btn btn-sm btn-default bsp-repeat"><span class="glyphicon glyphicon-repeat"></span></a></div><p class="bsp-infos"><span class="glyphicon glyphicon-music"></span> <span class="bsp-active-artist"></span> - <span class="bsp-active-title"></span></p></div><div class="panel-body"><div class="progress bsp-scrubber"><div class="progress-bar progress-bar-info bsp-loaded"></div><div class="progress-bar progress-bar-striped bsp-progress"><span><span class="bsp-played"></span> <span class="bsp-duration hide"></span></span></div></div><p class="alert alert-danger bsp-error-message"></p></div><div class="list-group bsp-playlist"><a class="hide list-group-item bsp-track"><span class="glyphicon glyphicon-play-circle"></span> <span class="bsp-artist"></span> - <span class="bsp-title"></span> <span class="badge bsp-length"></span></a></div></div>'
 	, playPauseClass:    'bsp-play-pause'
@@ -22,6 +22,7 @@ var settings = {
 	, loadingClass:      'bsp-loading'
 	, errorClass:        'bsp-error'
 	}
+
 	/** AudioJS play event
 	 *  Synchronizes playlist UI with player state
 	 */
@@ -35,6 +36,15 @@ var settings = {
 		bsplay.progress.addClass('active');
 		bsplay.wrapper.addClass(settings.createPlayer.playingClass);
 	}
+
+	/** AudioJS pause event
+	 * Synchronizes playlist UI with player state
+	 */
+, pause: function (){
+		bsplay.progress.removeClass('active');
+		bsplay.wrapper.removeClass(settings.createPlayer.playingClass);
+	}
+
 	/** AudioJS trackEnded event
 	 *  Plays next track according to repeat option or pauses
 	 */

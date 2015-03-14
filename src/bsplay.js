@@ -22,6 +22,7 @@ var settings = {
 	, loadingClass:      'bsp-loading'
 	, errorClass:        'bsp-error'
 	}
+
 	/** AudioJS play event
 	 *  Synchronizes playlist UI with player state
 	 */
@@ -35,6 +36,15 @@ var settings = {
 		bsplay.progress.addClass('active');
 		bsplay.wrapper.addClass(settings.createPlayer.playingClass);
 	}
+
+	/** AudioJS pause event
+	 * Synchronizes playlist UI with player state
+	 */
+, pause: function (){
+		bsplay.progress.removeClass('active');
+		bsplay.wrapper.removeClass(settings.createPlayer.playingClass);
+	}
+
 	/** AudioJS trackEnded event
 	 *  Plays next track according to repeat option or pauses
 	 */

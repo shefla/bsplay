@@ -2,9 +2,11 @@
 
 .bsp-widget {
 	border-radius: @border-radius-base;
+
 	.bsp-volume {
    	width: 150px !important;
   	margin: 0 0 0 @padding-base-horizontal;
+
   	.slider-track {
   		background: @panel-bg;
   	}
@@ -18,10 +20,21 @@
   		font-family: 'Glyphicons Halflings';
   	}
 	}
-	.bsp-volume-mute .slider-handle:before { content: "\\e036"; }
-	.bsp-volume-half .slider-handle:before { content: "\\e037"; }
-	.bsp-volume-full .slider-handle:before { content: "\\e038"; }
+  .bsp-volume-mute .slider-handle:before { content: "\\e036"; }
+  .bsp-volume-half .slider-handle:before { content: "\\e037"; }
+  .bsp-volume-full .slider-handle:before { content: "\\e038"; }
   .bsp-repeat-all .glyphicon:before { content: "\\e031"; }
+  .bsp-scrubber {
+    margin: 0;
+    border-radius: 0;
+    position: relative;
+
+    .bsp-loaded, .bsp-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 .bsp-playing .bsp-play-pause .glyphicon:before {
   content: "\\e073";
