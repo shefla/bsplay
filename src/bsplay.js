@@ -167,29 +167,36 @@ var bsplay = {
 	/** Pause current track */
 , pause: function (){ this.player.pause(); }
 
-	/** Plays previous playlist track according to random option or pauses */
+	/** Plays previous playlist track according to random and repeat options or pauses */
 , prev: function (){
 		var $prev;
 		var self = this;
 		if (self.options.random){ return self.next(); }
 		$prev = self.active.prev('.bsp-track')
-		$prev.length ? self.play($prev) : self.pause();
+		$prev.length ? self.play($prev) : (self.options.repeat === 'all'
+			? self.play(self.playlist.children('.bsp-track:last-child'))
+			: self.pause()
+		);
 	}
 
-	/** Plays next playlist track according to random option or pauses */
+	/** Plays next playlist track according to random and repeat options or pauses */
 , next: function (){
 		var $next;
 		var self = this;
 		var random = self.options.random;
+		var repeat = self.options.repeat === 'all';
 		if (random && !self.randlist.length){
 			self.randomize();
-			return self.options.repeat === 'all' ? self.next() : self.pause();
+			return repeat ? self.next() : self.pause();
 		}
 		var $next = random
 			? self.tracks[self.randlist.pop()]
 			: self.active.next('.bsp-track')
 		;
-		$next && $next.length ? self.play($next) : self.pause();
+		$next.length ? self.play($next) : (repeat
+			? self.play(self.playlist.children('.bsp-track:first-child'))
+			: self.pause()
+		);
 	}
 
 	/** Populates randlist property with shuffled track keys */ 
