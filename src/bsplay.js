@@ -139,6 +139,12 @@ var bsplay = {
 			}
 			$el.addClass('bsp-repeat-'+self.options.repeat);
 		});
+		self.wrapper.find('.alert-danger')
+			.alert().on('close.bs.alert', function (event){
+				self.wrapper.removeClass(settings.createPlayer.errorClass);
+				return false;
+			})
+		;
 		self.player.setVolume(self.options.volume / 100);
 		self.active = self.add($audio);
 	}

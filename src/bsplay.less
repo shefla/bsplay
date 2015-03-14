@@ -38,21 +38,31 @@
   .bsp-volume-half .slider-handle:before { content: "\\e037"; }
   .bsp-volume-full .slider-handle:before { content: "\\e038"; }
   .bsp-repeat-all .glyphicon:before { content: "\\e031"; }
+
   .panel-body {
     padding: 0;
-  }
-  .bsp-scrubber {
-    margin: 0;
-    border-radius: 0;
-    position: relative;
 
-    .bsp-loaded, .bsp-progress {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .bsp-scrubber {
+      margin: 0;
+      border-radius: 0;
+      position: relative;
+  
+      .bsp-loaded, .bsp-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+    .alert-danger {
+      display: none;
+      border-radius: 0;
+      margin: 0;
     }
   }
 }
 .bsp-playing .bsp-play-pause .glyphicon:before {
   content: "\\e073";
+}
+.bsp-error .panel-body .alert-danger {
+  display: block;
 }
