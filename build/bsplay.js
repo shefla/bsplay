@@ -35,6 +35,7 @@ var settings = {
 		$track.addClass('active');
 		bsplay.progress.addClass('active');
 		bsplay.wrapper.addClass(settings.createPlayer.playingClass);
+		bsplay.toggler.addClass('btn-primary');
 	}
 
 	/** AudioJS pause event
@@ -43,6 +44,7 @@ var settings = {
 , pause: function (){
 		bsplay.progress.removeClass('active');
 		bsplay.wrapper.removeClass(settings.createPlayer.playingClass);
+		bsplay.toggler.removeClass('btn-primary');
 	}
 
 	/** AudioJS trackEnded event
@@ -79,6 +81,7 @@ var chrono = function (duration){
  * @property {Object}  options - User options merged with defaults
  * @property {audiojs}  player - AudioJS player instance
  * @property {jQuery}  wrapper - Wrapped player container element
+ * @property {jQuery}  toggler - Wrapped play/pause button element
  * @property {jQuery}   slider - Wrapped volume slider element 
  * @property {jQuery}   artist - Wrapped current track artist text element
  * @property {jQuery}    title - Wrapped current track title text element
@@ -101,6 +104,7 @@ var bsplay = {
 		self.options = $.extend({}, defaults, options);
 		self.player  = ajs.create($audio[0], settings);
 		self.wrapper = $(this.player.wrapper);
+		self.toggler = self.wrapper.find('.'+settings.createPlayer.playPauseClass);
 		self.slider  = this.wrapper.find('.bsp-volume');
 		self.slider.find('input').slider({
 			min: 0, max: 100, value: 50
