@@ -34,5 +34,11 @@
     "gulp-replace": "^0.5.3",
     "gulp-shell": "^0.4.0",
     "gulp-webserver": "^0.9.0"
+  },
+  "dependencies": {
+    "bootstrap": "file:./bootstrap",
+    "bootstrap-slider": "file:./bootstrap-slider",
+    "html5sortable": "file:./html5sortable",
+    "jquery": "file:./jquery"
   }
 }
