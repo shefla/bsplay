@@ -1,4 +1,19 @@
-;(function ($, ajs){
+;(function (scope, factory){
+	var deps = ['audiojs', 'jquery', 'bootstrap', 'bootstrap-slider', 'html5Sortable'];
+	if (typeof define === 'function' && define.amd){
+		define(deps, factory);
+	}
+	else if (typeof module !== 'undefined' && module.exports){
+		module.exports = factory(
+			require('audiojs')
+		, require('jquery')
+		, require('bootstrap')
+		, require('bootstrap-slider')
+		, require('html5Sortable')
+		);
+	}
+	else { factory(audiojs, jQuery); }
+})(this, function (ajs, $){
 
 var plugin   = 'bsplay';
 var defaults = {
@@ -258,4 +273,4 @@ $.fn[plugin] = function (options){
 	});
 };
 
-})(jQuery, audiojs);
+});
