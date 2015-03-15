@@ -250,6 +250,7 @@ $.fn[plugin] = function (options){
 		var $el = $(this);
 		if ($el.prop('tagName') !== 'AUDIO'){ return; }
 		bsplay.player ? bsplay.add($el) : bsplay.init($el, options);
+		bsplay.playlist.sortable();
 	});
 };
 
