@@ -61,6 +61,17 @@ var settings = {
 	}
 };
 
+/** Converts a track duration into displayable string
+ * @param {Number} duration - Timestamp to convert
+ * @return {String} Track duration using format: "00:00"
+ */
+var chrono = function (duration){
+	if (!duration){ return 'Error'; }
+	var min = Math.floor(duration / 60);
+	var sec = Math.floor(duration % 60);
+	return ((min < 10 ? '0' : '')+min+':'+(sec < 10 ? '0' : '')+sec);
+};
+
 /** Singleton plugin object
  * @property {jQuery}   active - Wrapped current track element
  * @property {Object}   tracks - Hash of mp3 path => wrapped playlist track
@@ -164,10 +175,12 @@ var bsplay = {
 			path:   path
 		, artist: tokens.length > 1 ? tokens.shift() : '?'
 		, title:  tokens.join(' - ').replace(/\.mp3$/i, '')
+		, length: chrono($audio.prop('duration'))
 		};
 		var $track = self.template.clone(true).data(plugin, data).appendTo(self.playlist);
 		$track.find('.bsp-artist').text(data.artist);
 		$track.find('.bsp-title' ).text(data.title);
+		$track.find('.bsp-length' ).text(data.length);
 		self.tracks[path] = $track;
 		return $track;
 	}
