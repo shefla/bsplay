@@ -1,20 +1,8 @@
-;(function (scope, factory){
-	var deps = ['audiojs', 'jquery', 'bootstrap', 'bootstrap-slider', 'html5Sortable'];
-	if (typeof define === 'function' && define.amd){
-		define(deps, factory);
-	}
-	else if (typeof module !== 'undefined' && module.exports){
-		module.exports = factory(
-			require('audiojs')
-		, require('jquery')
-		, require('bootstrap')
-		, require('bootstrap-slider')
-		, require('html5Sortable')
-		);
-	}
-	else { factory(audiojs, jQuery); }
-})(this, function (ajs, $){
-
+require('bootstrap');
+require('bootstrap-slider');
+require('html5sortable');
+var ajs      = require('audiojs');
+var $        = require('jquery');
 var plugin   = 'bsplay';
 var defaults = {
 	volume: 50
@@ -272,5 +260,3 @@ $.fn[plugin] = function (options){
 		bsplay.playlist.sortable();
 	});
 };
-
-});
