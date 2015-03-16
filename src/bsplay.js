@@ -22,9 +22,9 @@ var defaults = {
 , repeat: 'off' // either "off", "one" or "all"
 };
 var settings = {
-	css: 'INJECT.css'
+	css: '/* inject:css *//* endinject */'
 , createPlayer: {
-		markup: 'INJECT.html'
+		markup: '<!-- inject:html --><!-- endinject -->'
 	, playPauseClass:    'bsp-play-pause'
 	, scrubberClass:     'bsp-scrubber'
 	, progressClass:     'bsp-progress'

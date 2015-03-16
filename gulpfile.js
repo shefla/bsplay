@@ -1,4 +1,3 @@
-var fs         = require('fs');
 var path       = require('path');
 var gulp       = require('gulp');
 var shell      = require('gulp-shell');
@@ -6,6 +5,7 @@ var less       = require('gulp-less');
 var cssmin     = require('gulp-minify-css');
 var htmlmin    = require('gulp-htmlmin');
 var replace    = require('gulp-replace');
+var inject     = require('gulp-inject');
 var server     = require('gulp-webserver');
 var source     = require('vinyl-source-stream');
 var browserify = require('browserify');
@@ -52,11 +52,16 @@ gulp.task('build:markup', function (){
 
 gulp.task('build:script', ['build:style', 'build:markup'], function (){
 	return gulp.src('./src/bsplay.js')
-		.pipe(replace(/INJECT\.(html|css)/g, function (inject){
-			return fs.readFileSync(
-				'./build/bsplay'+path.extname(inject)
-			, { encoding: 'utf-8' }
-			).replace(/'/g, "\\'");
+		.pipe(inject(gulp.src(['./build/bsplay.css', './build/bsplay.html']), {
+			starttag: function (_, ext){
+				return ext === 'css' ? '/* inject:css */' : '<!-- inject:html -->';
+			}
+		, endtag:function (_, ext){
+				return ext === 'css' ? '/* endinject */' : '<!-- endinject -->';
+			}
+		, transform: function (path, file){
+				return file.contents.toString('utf-8').replace(/'/g, "\\'");
+			}
 		}))
 		.pipe(gulp.dest('./build'))
 	;
