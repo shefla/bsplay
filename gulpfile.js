@@ -1,12 +1,14 @@
-var fs      = require('fs');
-var path    = require('path');
-var gulp    = require('gulp');
-var shell   = require('gulp-shell');
-var less    = require('gulp-less');
-var cssmin  = require('gulp-minify-css');
-var htmlmin = require('gulp-htmlmin');
-var replace = require('gulp-replace');
-var server  = require('gulp-webserver');
+var fs         = require('fs');
+var path       = require('path');
+var gulp       = require('gulp');
+var shell      = require('gulp-shell');
+var less       = require('gulp-less');
+var cssmin     = require('gulp-minify-css');
+var htmlmin    = require('gulp-htmlmin');
+var replace    = require('gulp-replace');
+var server     = require('gulp-webserver');
+var source     = require('vinyl-source-stream');
+var browserify = require('browserify');
 
 gulp.task('server', function (){
 	gulp.watch('./src/bsplay.*', ['build:script']);
@@ -15,6 +17,16 @@ gulp.task('server', function (){
 	, port:       80
 	, livereload: true
 	}));
+});
+
+gulp.task('bundle:script', function (){
+	return browserify('./src/bsplay.js')
+		.ignore('bootstrap')
+		.ignore('jquery')
+		.bundle()
+		.pipe(source('bsplay.bundle.js'))
+		.pipe(gulp.dest('./build'))
+	;
 });
 
 gulp.task('build', ['build:jquery', 'build:script']);

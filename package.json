@@ -27,18 +27,29 @@
   },
   "homepage": "https://github.com/shefla/bsplay",
   "devDependencies": {
+    "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.3",
     "gulp": "^3.8.11",
     "gulp-htmlmin": "^1.1.1",
     "gulp-less": "^3.0.1",
     "gulp-minify-css": "^1.0.0",
     "gulp-replace": "^0.5.3",
     "gulp-shell": "^0.4.0",
-    "gulp-webserver": "^0.9.0"
+    "gulp-uglify": "^1.1.0",
+    "gulp-webserver": "^0.9.0",
+    "vinyl-source-stream": "^1.1.0"
   },
-  "dependencies": {
-    "bootstrap": "file:./bootstrap",
-    "bootstrap-slider": "file:./bootstrap-slider",
-    "html5sortable": "file:./html5sortable",
-    "jquery": "file:./jquery"
+  "browser": {
+    "audiojs": "./audiojs/audiojs/audio.min.js",
+    "bootstrap-slider": "./bootstrap-slider/dist/bootstrap-slider.min.js",
+    "html5sortable": "./html5sortable/dist/html.sortable.min.js"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "audiojs": "audiojs"
   }
 }
