@@ -19,13 +19,13 @@ gulp.task('server', function (){
 	}));
 });
 
-gulp.task('bundle:script', function (){
-	return browserify('./src/bsplay.js')
+gulp.task('dist:bundle', function (){
+	return browserify('./build/bsplay.js')
 		.ignore('bootstrap')
 		.ignore('jquery')
 		.bundle()
 		.pipe(source('bsplay.bundle.js'))
-		.pipe(gulp.dest('./build'))
+		.pipe(gulp.dest('./dist'))
 	;
 });
 

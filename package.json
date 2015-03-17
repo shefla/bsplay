@@ -41,16 +41,15 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "browser": {
-    "audiojs": "./audiojs/audiojs/audio.min.js",
-    "bootstrap-slider": "./bootstrap-slider/dist/bootstrap-slider.min.js",
-    "html5sortable": "./html5sortable/dist/html.sortable.min.js"
+    "audiojs": "./audiojs/audiojs/audio.js",
+    "bootstrap-slider": "./bootstrap-slider/js/bootstrap-slider.js",
+    "html5sortable": "./html5sortable/dist/html.sortable.js"
   },
   "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
+    "transform": [ "browserify-shim" ]
   },
   "browserify-shim": {
+    "jquery": "global:jQuery",
     "audiojs": "audiojs"
   }
 }
