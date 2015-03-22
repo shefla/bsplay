@@ -1,8 +1,9 @@
-require('bootstrap');
-require('bootstrap-slider');
-require('html5sortable');
-var ajs      = require('audiojs');
-var $        = require('jquery');
+/** bsplay - Bootstrap audio playlist using jQuery and AudioJS
+ * @license MIT
+ */
+// inject:bundle
+(function ($, ajs){
+
 var plugin   = 'bsplay';
 var defaults = {
 	volume: 50
@@ -10,9 +11,9 @@ var defaults = {
 , repeat: 'off' // either "off", "one" or "all"
 };
 var settings = {
-	css: '/* inject:css *//* endinject */'
+	css: '' // inject: ./build/bsplay.css
 , createPlayer: {
-		markup: '<!-- inject:html --><!-- endinject -->'
+		markup: '' // inject: ./build/bsplay.html
 	, playPauseClass:    'bsp-play-pause'
 	, scrubberClass:     'bsp-scrubber'
 	, progressClass:     'bsp-progress'
@@ -260,3 +261,5 @@ $.fn[plugin] = function (options){
 		bsplay.playlist.sortable();
 	});
 };
+
+})(jQuery, audiojs);

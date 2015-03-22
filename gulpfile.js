@@ -4,14 +4,14 @@ var shell      = require('gulp-shell');
 var less       = require('gulp-less');
 var cssmin     = require('gulp-minify-css');
 var htmlmin    = require('gulp-htmlmin');
+var uglify     = require('gulp-uglify');
+var rename     = require('gulp-rename');
 var replace    = require('gulp-replace');
 var inject     = require('gulp-inject');
 var server     = require('gulp-webserver');
-var source     = require('vinyl-source-stream');
-var browserify = require('browserify');
 
 gulp.task('server', function (){
-	gulp.watch('./src/bsplay.*', ['build:script']);
+	gulp.watch('./src/bsplay.*', ['dist']);
 	return gulp.src('.').pipe(server({
 		open:       'http://localhost/test/index.html'
 	, port:       80
@@ -19,13 +19,33 @@ gulp.task('server', function (){
 	}));
 });
 
-gulp.task('dist:bundle', function (){
-	return browserify('./build/bsplay.js')
-		.ignore('bootstrap')
-		.ignore('jquery')
-		.bundle()
-		.pipe(source('bsplay.bundle.js'))
+gulp.task('dist', ['dist:bundle'], function (){
+	return gulp.src('./build/bsplay.js')
 		.pipe(gulp.dest('./dist'))
+		.pipe(uglify())
+		.pipe(rename('bsplay.min.js'))
+		.pipe(gulp.dest('./dist'))
+	;
+});
+
+gulp.task('dist:bundle', ['build:script'],function (){
+	return gulp.src('./build/bsplay.js')
+		.pipe(inject(gulp.src([
+			'./audiojs/audiojs/audio.min.js'
+		, './bootstrap-slider/dist/bootstrap-slider.min.js'
+		, './html5sortable/dist/html.sortable.min.js'
+		]), {
+			starttag: '// inject:bundle'
+		, endtag: '(function'
+		, transform: function (path, file){
+				return file.contents.toString('utf-8'); 
+			}
+		}))
+		.pipe(rename('bsplay.audio.js'))
+		.pipe(gulp.dest('./dist/'))
+		.pipe(uglify())
+		.pipe(rename('bsplay.audio.min.js'))
+		.pipe(gulp.dest('./dist/'))
 	;
 });
 
@@ -54,11 +74,9 @@ gulp.task('build:script', ['build:style', 'build:markup'], function (){
 	return gulp.src('./src/bsplay.js')
 		.pipe(inject(gulp.src(['./build/bsplay.css', './build/bsplay.html']), {
 			starttag: function (_, ext){
-				return ext === 'css' ? '/* inject:css */' : '<!-- inject:html -->';
+				return ext === 'css' ? "css: '" : "markup: '";
 			}
-		, endtag:function (_, ext){
-				return ext === 'css' ? '/* endinject */' : '<!-- endinject -->';
-			}
+		, endtag: "'"
 		, transform: function (path, file){
 				return file.contents.toString('utf-8').replace(/'/g, "\\'");
 			}
